@@ -6,6 +6,8 @@ import classes.MelysegObjektum;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,7 +118,32 @@ public class EszleloListaPrg {
             System.out.printf("%s: %ddb\n", key, csillagkepMelysegObjektumSzama.get(key));
         }
 
+        try {
+            FileWriter fileWriter = new FileWriter(new File("/home/budaisamuel/Developer/Sources/Eszlelolista/mélység-stat.txt"));
 
+            for(String key : csillagkepMelysegObjektumSzama.keySet()){
+                fileWriter.write(String.format("%s: %ddb\n", key, csillagkepMelysegObjektumSzama.get(key)));
+            }
 
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("A fájl irása során hiba lépett fel!");
+        }
+
+        Kettoscsillag legnagyobbFenyelteresuKettoscsillag = null;
+        for(Egitest egitest : egitestek){
+            if (egitest instanceof Kettoscsillag){
+                if (legnagyobbFenyelteresuKettoscsillag == null){
+                    legnagyobbFenyelteresuKettoscsillag = (Kettoscsillag) egitest;
+                }
+
+                if (((Kettoscsillag) egitest).getFenyessegElteres() > legnagyobbFenyelteresuKettoscsillag.getFenyessegElteres()){
+                    legnagyobbFenyelteresuKettoscsillag = (Kettoscsillag) egitest;
+                }
+            }
+        }
+
+        System.out.printf("A megfigyelt kettőscsillagok között a legnagyobb a fényességeltéréssel rendelkező csillag:  %s\n", legnagyobbFenyelteresuKettoscsillag.getEgitestNeve());
     }
 }

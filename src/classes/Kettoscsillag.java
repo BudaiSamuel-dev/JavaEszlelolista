@@ -20,4 +20,11 @@ public class Kettoscsillag extends Egitest{
     public String getFenyesseg() {
         return fenyesseg;
     }
+
+    public double getFenyessegElteres(){
+        double fenyesseg1 = Double.parseDouble(fenyesseg.split("/")[0].trim());
+        double fenyesseg2 = Double.parseDouble(fenyesseg.split("/")[1].trim());
+
+        return fenyesseg2 > fenyesseg1 ? (fenyesseg2 - fenyesseg1) : (fenyesseg1 - fenyesseg2);
+    }
 }
